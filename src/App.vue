@@ -1,8 +1,4 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Que voulez-vous faire ?" />
-  </div>
   <div id="app" class="container">
     <img alt="Vue logo" src="./assets/logo.png" />
     <h1>Que voulez-vous faire ?</h1>
@@ -30,9 +26,6 @@ export default {
   name: 'App',
   components: {
     HelloWorld,
-  },
-  name: 'App',
-  components: {
     SuppliersList,
     SuppliersMap,
   },

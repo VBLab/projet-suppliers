@@ -45,10 +45,11 @@ li {
 }
 a {
   color: #42b983;
-.btn-dark {
-    margin-left: 25px;
-    margin-right: 25px;
-    margin-top: 2em;
 }
 
+.btn-dark {
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 2em;
+}
 </style>
