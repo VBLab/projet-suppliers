@@ -1,44 +1,13 @@
 <template>
-  <div id="app" class="container">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <h1>Que voulez-vous faire ?</h1>
-    <form class="row">
-      <input
-        type="button"
-        value="Consulter la liste des fournisseurs"
-        class="btn btn-dark col"
-        @click="onSuppliersListClick"
-      />
-
-      <input type="button" value="Voir la carte" class="btn btn-dark col" @click="onMapClick" />
-      <SuppliersList></SuppliersList>
-      <SuppliersMap></SuppliersMap>
-    </form>
+  <div id="app">
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/Map">Map</router-link> |
+      <router-link to="/suppliers">Liste des fournisseurs</router-link>
+    </div>
+    <router-view />
   </div>
 </template>
-
-<script>
-import HelloWorld from './components/HelloWorld.vue';
-import SuppliersList from './components/SuppliersList.vue';
-import SuppliersMap from './components/SuppliersMap.vue';
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld,
-    SuppliersList,
-    SuppliersMap,
-  },
-  methods: {
-    onSuppliersListClick() {
-      alert('Tu as cliqué sur la liste de fournisseurs !');
-    },
-    onMapClick() {
-      alert('Tu as cliqué sur la map !');
-    },
-  },
-};
-</script>
 
 <style>
 #app {
@@ -47,17 +16,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
-.btn-dark {
-  margin-left: 25px;
-  margin-right: 25px;
-  margin-top: 2em;
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>

@@ -1,15 +1,6 @@
 <template>
   <div class="hello container">
     <h1>{{ msg }}</h1>
-    <form class="row">
-      <input
-        type="button"
-        value="Consulter la liste des fournisseurs"
-        class="btn btn-dark col"
-        @click="onSuppliersListClick"
-      />
-      <input type="button" value="Voir la carte" class="btn btn-dark col" @click="onMapClick" />
-    </form>
   </div>
 </template>
 
