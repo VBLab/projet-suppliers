@@ -1,9 +1,13 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/Map">Map</router-link> |
-      <router-link to="/suppliers">Liste des fournisseurs</router-link>
+      <router-link to="/">
+        <img alt="Vue logo" src="@/assets/logo.png" />
+      </router-link>
+      <br />
+      <router-link to="/Map">Map</router-link>|
+      <router-link to="/suppliers">Liste</router-link>|
+      <router-link to="/supplier">fournisseurs</router-link>
     </div>
     <router-view />
   </div>

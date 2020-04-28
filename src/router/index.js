@@ -19,6 +19,11 @@ const routes = [
     name: 'Map',
     component: () => import('@/components/SuppliersMap.vue'),
   },
+  {
+    path: '/supplier',
+    name: 'supplier',
+    component: () => import('@/components/Supplier.vue'),
+  },
 ];
 
 const router = new VueRouter({
