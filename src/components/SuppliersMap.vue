@@ -2,11 +2,14 @@
   <div style="height: 35em">
     <LMap :zoom="zoom" :center="center">
       <LTileLayer :url="url"></LTileLayer>
-      <LMarker :lat-lng="[47.41322, -1.219482]"></LMarker>
-      <LMarker :lat-lng="[46.19322, 4.82]"></LMarker>
-      <LMarker :lat-lng="[45.19322, 6.82]"></LMarker>
-      <LMarker :lat-lng="[47.0322, -0.9482]"></LMarker>
-      <LMarker :lat-lng="[46.0322, 2.9482]"></LMarker>
+      <LMarker
+        :lat-lng="[element.latitude, element.longitude]"
+        v-for="element in suppliers"
+        :latitude="element.latitude"
+        :longitude="element.longitude"
+        v-bind:key="element.id"
+      >
+      </LMarker>
     </LMap>
   </div>
 </template>
@@ -26,6 +29,18 @@ export default {
       zoom: 6,
       center: [46.5322, 2.9482],
       bounds: null,
+      suppliers: [
+        {
+          id: 1,
+          latitude: 45.18,
+          longitude: 5.7,
+        },
+        {
+          id: 2,
+          latitude: 45.34,
+          longitude: 5.55,
+        },
+      ],
     };
   },
 };
