@@ -1,9 +1,9 @@
 <template>
   <div class="fournisseurs">
     <h3>{{name}}</h3>
-    <h4 class="text-lg" v-if="status">A du stock ? Ok</h4>
-    <h4 class="text-lg text-red-700" v-else>A du stock ? Ko</h4>
-    <p class="text-sm text-gray-600">Dernière relève de stocks : {{checkedAt.toLocaleString()}}</p>
+    <h4 v-if="status" style="color:#196862">En stock</h4>
+    <h4 class="stocknul" v-else>A du stock ? Ko</h4>
+    <p class="maj">Stocks mis à jour le : {{checkedAt.toLocaleString()}}</p>
   </div>
 </template>
 
@@ -14,4 +14,7 @@ export default {
 };
 </script>
 
-<style lang=""></style>
+<style>
+.stocknul
+{color:brown;}
+</style>
