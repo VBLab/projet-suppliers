@@ -31,6 +31,24 @@ export default {
         status: false,
         checkedAt: result,
       },
+      {
+        id: 3,
+        name: 'Fournisseur 3',
+        status: true,
+        checkedAt: result,
+      },
+      {
+        id: 2,
+        name: 'Fournisseur 4',
+        status: false,
+        checkedAt: result,
+      },
+      {
+        id: 2,
+        name: 'Fournisseur 5',
+        status: false,
+        checkedAt: result,
+      },
     ];
     return { mesSuppliers: monTableau };
   },
