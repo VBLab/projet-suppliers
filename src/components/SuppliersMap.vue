@@ -1,47 +1,107 @@
 <template>
-  <div style="height: 35em">
-    <LMap :zoom="zoom" :center="center">
-      <LTileLayer :url="url"></LTileLayer>
-      <LMarker
-        :lat-lng="[element.latitude, element.longitude]"
-        v-for="element in suppliers"
-        :latitude="element.latitude"
-        :longitude="element.longitude"
-        v-bind:key="element.id"
+  <div class="container">
+    <h3>Carte des fournisseurs</h3>
+    <div style="height: 35em">
+      <LMap
+        :zoom="zoom"
+        :center="center"
+        @update:zoom="zoomUpdated"
+        @update:center="centerUpdated"
+        @update:bounds="boundsUpdated"
       >
-      </LMarker>
-    </LMap>
+        <LTileLayer :url="url"></LTileLayer>
+        <l-marker
+          v-for="supplier in suppliers"
+          :key="supplier.id"
+          :lat-lng="[supplier.latitude, supplier.longitude]"
+        >
+          <l-popup>{{ supplier.message }} </l-popup>
+        </l-marker>
+      </LMap>
+    </div>
   </div>
 </template>
-
 <script>
-import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
+import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet';
+const axios = require('axios').default;
 export default {
-  name: 'Map',
+  name: 'SuppliersMap',
   components: {
     LMap,
     LTileLayer,
     LMarker,
+    LPopup,
   },
   data() {
     return {
-      url: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
-      zoom: 6,
-      center: [46.5322, 2.9482],
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      zoom: 2,
+      center: [47.41322, -1.219482],
       bounds: null,
       suppliers: [
         {
           id: 1,
-          latitude: 45.18,
-          longitude: 5.7,
+          latitude: -8.5080922,
+          longitude: 115.2639576,
+          message: `C'est George de la Jungle !`,
         },
         {
           id: 2,
-          latitude: 45.34,
-          longitude: 5.55,
+          latitude: 30.0170039,
+          longitude: 31.2134508,
+          message: `C'est Toutânkhamon !`,
+        },
+        {
+          id: 3,
+          latitude: 14.35848617553711,
+          longitude: -3.5952553749084473,
+          message: `C'est Butters ! Non je rigole, c'est Simba.`,
+        },
+        {
+          id: 4,
+          latitude: -9.9999999,
+          longitude: 69.9999999,
+          message: `C'est Bob l'éponge carrée !`,
+        },
+        {
+          id: 5,
+          latitude: 44.3518895,
+          longitude: -73.0324936,
+          message: `Je suis ton pèèèèèèèère.`,
         },
       ],
+      monSuppliers: [],
     };
+  },
+  created: function loadSuppliers() {
+    this.loading = true;
+    axios
+      .get('https://api-suppliers.herokuapp.com/api/suppliers')
+      .then(loadedValue => {
+        this.suppliers = loadedValue.data;
+        this.loading = false;
+      })
+      .catch(rejectReason => {
+        this.error = rejectReason;
+      });
+  },
+  methods: {
+    zoomUpdated(zoom) {
+      this.zoom = zoom;
+    },
+    centerUpdated(center) {
+      this.center = center;
+    },
+    boundsUpdated(bounds) {
+      this.bounds = bounds;
+    },
   },
 };
 </script>
+<style scoped>
+h3 {
+  margin: auto;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+</style>

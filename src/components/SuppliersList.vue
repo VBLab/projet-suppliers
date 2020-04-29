@@ -1,61 +1,76 @@
 <template>
-  <div>
-    <h1>Liste des fournisseurs</h1>
+  <div class="container">
+    <h3>Liste des fournisseurs</h3>
+    <div v-if="error != null">{{ error }}</div>
+    <div v-if="loading">Requête en cours ...</div>
     <Supplier
-      v-for="supFournisseurs in mesSuppliers"
-      :name="supFournisseurs.name"
-      :status="supFournisseurs.status"
-      :checkedAt="supFournisseurs.checkedAt"
-      v-bind:key="supFournisseurs.id"
+      v-for="supplier in suppliers"
+      :key="supplier.id"
+      :name="supplier.name"
+      :status="supplier.status"
+      :checkedAt="supplier.checkedAt"
     />
   </div>
 </template>
 
 <script>
-import Supplier from './Supplier';
-
+import Supplier from './Supplier.vue';
+const axios = require('axios').default;
 export default {
-  data() {
-    let date = new Date();
-    let result = date.toLocaleString();
-    let monTableau = [
-      {
-        id: 1,
-        name: 'Fournisseur 1 ?',
-        status: true,
-        checkedAt: result,
-      },
-      {
-        id: 2,
-        name: 'Fournisseur 2',
-        status: false,
-        checkedAt: result,
-      },
-      {
-        id: 3,
-        name: 'Fournisseur 3',
-        status: true,
-        checkedAt: result,
-      },
-      {
-        id: 2,
-        name: 'Fournisseur 4',
-        status: false,
-        checkedAt: result,
-      },
-      {
-        id: 2,
-        name: 'Fournisseur 5',
-        status: false,
-        checkedAt: result,
-      },
-    ];
-    return { mesSuppliers: monTableau };
-  },
+  name: 'SuppliersList',
   components: {
     Supplier,
   },
+  data: () => {
+    return {
+      suppliers: [
+        {
+          id: 1,
+          name: 'George de la Jungle',
+          status: true,
+          checkedAt: new Date().toLocaleString('fr-FR'),
+        },
+        {
+          id: 2,
+          name: 'Toutânkhamon',
+          status: false,
+          checkedAt: new Date().toLocaleString('fr-FR'),
+        },
+        {
+          id: 3,
+          name: 'Simba',
+          status: true,
+          checkedAt: new Date().toLocaleString('fr-FR'),
+        },
+        {
+          id: 4,
+          name: "Bob l'éponge",
+          status: true,
+          checkedAt: new Date().toLocaleString('fr-FR'),
+        },
+        {
+          id: 5,
+          name: 'Dark Vador',
+          status: false,
+          checkedAt: new Date().toLocaleString('fr-FR'),
+        },
+      ],
+      monSuppliers: [],
+      loading: false,
+      error: null,
+    };
+  },
+  created: function loadSuppliers() {
+    this.loading = true;
+    axios
+      .get('https://api-suppliers.herokuapp.com/api/suppliers')
+      .then(loadedValue => {
+        this.suppliers = loadedValue.data;
+        this.loading = false;
+      })
+      .catch(rejectReason => {
+        this.error = rejectReason;
+      });
+  },
 };
 </script>
-
-<style></style>
