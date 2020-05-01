@@ -1,6 +1,8 @@
 <template>
   <div class="container">
     <h3>Carte des fournisseurs</h3>
+    <div v-if="error != null">{{ error }}</div>
+    <div v-if="loading">Requête en cours ...</div>
     <div style="height: 35em">
       <LMap
         :zoom="zoom"
@@ -15,15 +17,20 @@
           :key="supplier.id"
           :lat-lng="[supplier.latitude, supplier.longitude]"
         >
-          <l-popup>{{ supplier.message }} </l-popup>
+          <l-popup>
+            <p>{{ supplier.name }}</p>
+          </l-popup>
         </l-marker>
       </LMap>
     </div>
   </div>
 </template>
+
 <script>
 import { LMap, LTileLayer, LMarker, LPopup } from 'vue2-leaflet';
-const axios = require('axios').default;
+import { latLng } from 'leaflet';
+import { mapState } from 'vuex';
+
 export default {
   name: 'SuppliersMap',
   components: {
@@ -36,55 +43,12 @@ export default {
     return {
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       zoom: 2,
-      center: [47.41322, -1.219482],
+      center: latLng(47.41322, -1.219482),
       bounds: null,
-      suppliers: [
-        {
-          id: 1,
-          latitude: -8.5080922,
-          longitude: 115.2639576,
-          message: `C'est George de la Jungle !`,
-        },
-        {
-          id: 2,
-          latitude: 30.0170039,
-          longitude: 31.2134508,
-          message: `C'est Toutânkhamon !`,
-        },
-        {
-          id: 3,
-          latitude: 14.35848617553711,
-          longitude: -3.5952553749084473,
-          message: `C'est Butters ! Non je rigole, c'est Simba.`,
-        },
-        {
-          id: 4,
-          latitude: -9.9999999,
-          longitude: 69.9999999,
-          message: `C'est Bob l'éponge carrée !`,
-        },
-        {
-          id: 5,
-          latitude: 44.3518895,
-          longitude: -73.0324936,
-          message: `Je suis ton pèèèèèèèère.`,
-        },
-      ],
-      monSuppliers: [],
     };
   },
-  created: function loadSuppliers() {
-    this.loading = true;
-    axios
-      .get('https://api-suppliers.herokuapp.com/api/suppliers')
-      .then(loadedValue => {
-        this.suppliers = loadedValue.data;
-        this.loading = false;
-      })
-      .catch(rejectReason => {
-        this.error = rejectReason;
-      });
-  },
+  computed: mapState(['suppliers', 'loading', 'error']),   
+  
   methods: {
     zoomUpdated(zoom) {
       this.zoom = zoom;
@@ -96,8 +60,9 @@ export default {
       this.bounds = bounds;
     },
   },
-};
+  };
 </script>
+
 <style scoped>
 h3 {
   margin: auto;
